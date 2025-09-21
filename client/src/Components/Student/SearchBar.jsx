@@ -17,7 +17,7 @@ const onSerachHandler = (e)=>{
         className='md:w-auto w-10 px-3' />
       <input onChange={(e)=>setInput(e.target.value)} type="text" placeholder='Search for Course'
         className='w-full h-full outline-none text-gray-500/80' />
-      <button  type="submit" class="bg-blue-600 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1">Search</button>
+      <button  type="submit" className="bg-blue-600 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1">Search</button>
     </form>
   )
 }

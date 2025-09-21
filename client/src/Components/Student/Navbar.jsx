@@ -5,7 +5,7 @@ import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
 import { AppContext } from '../../Context/AppContext'
 const Navbar = () => {
 
-  const {navigate} = useContext(AppContext)
+  const {navigate,isEducator} = useContext(AppContext)
   const isCourseListPage = location.pathname.includes('/courses-list');
 
   const { openSignIn } = useClerk()
@@ -17,7 +17,7 @@ const Navbar = () => {
       <img onClick={()=>navigate('/')}src={assets.logo} alt="Logo" className='w-28 lg:w-32 cursor-pointer' />
       <div className='hidden md:flex items-center gap-5 text-gray-500'>
         <div className='flex items-center gap-5'>
-          {user && <> <button>Become Educator</button> |
+          {user && <> <button onClick={()=>{navigate('/educator')}}>{isEducator ? 'Educator Dashboard' : 'Become Educator'} </button> |
             <Link to='/my-enrollments'> My Enrollments</Link></>}
         </div>
         {user ? <UserButton /> : <button onClick={() => openSignIn()} className='bg-blue-600 text-white px-5 py-2 rounded-full'>Create Account</button>}
@@ -26,8 +26,8 @@ const Navbar = () => {
       {/* For Phone screen */}
       <div className='md:hidden flex item-centre gap-2 sm:gap-5 text-gray-500'>
         <div>
-           {user && <> <button>Become Educator</button> |
-            <Link to='/my-enrollments'> My Enrollments</Link></>}
+           {user && <button onClick={()=>{navigate('/educator')}}>{isEducator ? 'Educator Dashboard' : 'Become Educator'} </button> |
+            <Link to='/my-enrollments'> My Enrollments</Link>}
         </div>
         {user ? <UserButton /> : <button onClick={() => openSignIn()}><img src={assets.user_icon} alt="" /></button>}
       </div>

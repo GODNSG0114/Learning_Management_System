@@ -18,7 +18,7 @@ const Hero = () => {
           "We bring together world-class instructors, interactive content, and a supportive community to help you achieve your personal and professional goals."
         </p>
 
-        <p class="md:hidden text-gray-500 max-w-sm mx-auto">
+        <p className="md:hidden text-gray-500 max-w-sm mx-auto">
           "We bring together world-class instructors to help you achieve your professional goals."
         </p>
         <SearchBar/>
