@@ -8,7 +8,7 @@ const [input,setInput] = useState(data ? data: '')
 
 const onSerachHandler = (e)=>{
          e.preventDefault()
-         navigate('/course-list' + input)
+         navigate('/course-list' + `/${input}`)
 }
   return (
     <form onSubmit={onSerachHandler} className='max-w-xl w-full md:h-14 h-12 flex items-center bg-white
