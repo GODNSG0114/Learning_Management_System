@@ -27,7 +27,7 @@ const isEducatorRoute = useMatch('/educator/*');
         <Route path='/course-list' element={<CourseList/>}/>
         <Route path='/course-list/:input' element={<CourseList/>} />
         <Route path='/course/:id' element ={<CourseDetails/>}/>
-        <Route path='/my-Enrollement' element={<MyEnrollement/>}/>
+        <Route path='/my-enrollments' element={<MyEnrollement/>}/>
         <Route path='/player/:courseID' element={<Player/>}/>
         <Route path='/loading/:path' element={<Loading/>}/>
             
