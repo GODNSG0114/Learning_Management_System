@@ -7,7 +7,7 @@ import MyEnrollement from './Pages/Student/MyEnrollments'
 import Player from './Pages/Student/Player'
 import Loading from './Components/Student/Loading'
 import Educators from './Pages/Educator/Educators'
-import Dashboard from './Pages/Educator/Dashboard'
+import DashBoard from './Pages/Educator/DashBoard'
 import AddCourse from './Pages/Educator/AddCourse'
 import Mycourses from './Pages/Educator/Mycourses'
 import StudentEnrolled from './Pages/Educator/StudentEnrolled'
@@ -32,7 +32,7 @@ const isEducatorRoute = useMatch('/educator/*');
         <Route path='/loading/:path' element={<Loading/>}/>
             
         <Route path='/educator' element={<Educators/>}>
-           <Route path='dash' element={<Dashboard/>}/>
+           <Route path='/educator' element={<DashBoard/>}/>
            <Route path='add-course' element={<AddCourse/>}/>
            <Route path='my-courses' element={<Mycourses/>}/>
            <Route path='student-enrolled' element={<StudentEnrolled/>}/>
