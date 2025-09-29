@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './DB/Db.js'
+import { clerkWebhook } from './Controlles/Webhook.js'
 
 
 // initialize express
@@ -14,7 +15,7 @@ app.use(cors())
 
 // Routes
 app.get('/',(req,res)=> res.send("Api working"))
-
+app.post('/clerk',express.json() , clerkWebhook)
 // Port
 const PORT = process.env.PORT || 5000
 
