@@ -24,3 +24,14 @@
 
   <!-- ////////////////////////////////////////////////// -->
 17. Go to the backend
+
+1. on server side install packages 
+nodemon -> restart server 
+.env -> envirment variable
+cors -> connect backend with any other domain
+cloudanry-> to store images and vidoes on cloud platform
+mongoose-> connect mangodb database
+multer -> to upload images
+stripe-> for payment gateway
+svix packages-> to manage webhooks
+@clerk/express -> for server
