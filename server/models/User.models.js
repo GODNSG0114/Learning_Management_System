@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
     {
         _id :{
             type : String ,
@@ -24,10 +24,10 @@ const UserSchema = new mongoose.Schema(
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'Course'
             }
-        ]
+        ],
     
     },{timestamps:true}
 )
 
- const User = mongoose.model('User' ,UserSchema);
+ const User = mongoose.model('User' ,userSchema);
  export default User
