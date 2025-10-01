@@ -3,6 +3,8 @@ import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './DB/Db.js'
 import { clerkWebhook } from './Controlles/Webhook.js'
+import educatorRouter from './Routes/Eductator.routes.js'
+import { clerkMiddleware } from '@clerk/express'
 
 
 // initialize express
@@ -12,10 +14,13 @@ await connectDB();
 
 // middlewares
 app.use(cors())
+app.use(clerkMiddleware())
 
 // Routes
 app.get('/',(req,res)=> res.send("Api working On versel"))
 app.post('/clerk',express.json() , clerkWebhook)
+app.use('/api/educator',express.json() ,educatorRouter)
+
 // Port
 const PORT = process.env.PORT || 5000
 
