@@ -1,7 +1,7 @@
 import mongoose, { Mongoose } from "mongoose";
 
 
-const LectureSchema = new Mongoose.Schema({
+const LectureSchema = new mongoose.Schema({
          lectureId : {type:String , required:true},
          lectureTitle : {type:String , required:true},
          lectureDuration : {type:Number , required:true},
@@ -36,7 +36,7 @@ const CourseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    courseDiscription: {
+    courseDescription: {
         type: String,
         required: true
     },
