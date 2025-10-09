@@ -2,6 +2,7 @@ import User from '../models/User.models.js'
 import { Purchase } from "../models/Purchase.js"
 import Course from '../models/Course.models.js'
 import Stripe from 'stripe';
+import CourseProgress from '../models/CourseProgress.js';
 
 // get user data
 export const getUserData = async (req, res) => {
@@ -88,4 +89,46 @@ export const purchaseCourse = async (req, res) => {
         res.json({success:false , session_Url: error.message})
 
     }
+}
+
+// update user Course Progress
+ export const updateUserCourseProgress = async (req,res)=>{
+    try {
+        const userId  = req.auth().userId
+        const {courseId , lectureId} = req.body
+        const progressData = await CourseProgress.findOne({userId ,courseId});
+    
+        if(progressData){
+            if(progressData.lectureCompleted.includes(lectureId)){
+                return res.json({success:true ,message:'lecture already completed'})
+            }
+
+            progressData.lectureCompleted.push(lectureId)
+            await progressData.save();
+
+        }else{
+             await CourseProgress.create({
+                userId,
+                courseId,
+                lectureCompleted:[lectureId]
+             })
+             res.json({success:true ,message:'progress updated'})
+        }
+    } catch (error) {
+         res.json({success:false , message:error.message})        
+    }
+ }
+
+
+//  get use course progress
+export const getUserProgress = async(req,res)=>{
+     try {
+        const userId  = req.auth().userId
+        const {courseId , lectureId} = req.body
+        const progressData = await CourseProgress.findOne({userId ,courseId});
+    
+         res.json({success:true , progressData})
+     } catch (error) {
+        
+     }
 }
