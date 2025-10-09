@@ -6,24 +6,11 @@ import Footer from '../../Components/Student/Footer'
 const MyEnrollments = () => {
 
   const { EnrolledCourses, calculateCourseDuration, navigate } = useContext(AppContext)
-  
+  console.log(EnrolledCourses)
   // ⚠️ NOTE: This progressArray should come from the user's actual enrollment data (backend/context)
   // relying on index correlation is unreliable.
   const [progressArray ,setprogressArray] = useState([
     {lectureCompleted:2 , totalLectures:4},
-    {lectureCompleted:1 , totalLectures:5},
-    {lectureCompleted:3 , totalLectures:6},
-    {lectureCompleted:4 , totalLectures:4},
-    {lectureCompleted:0 , totalLectures:3},
-    {lectureCompleted:5 , totalLectures:7},
-    {lectureCompleted:6 , totalLectures:8},
-    {lectureCompleted:2 , totalLectures:6},
-    {lectureCompleted:4 , totalLectures:10},
-    {lectureCompleted:3 , totalLectures:5},
-    {lectureCompleted:7 , totalLectures:7},
-    {lectureCompleted:1 , totalLectures:4},
-    {lectureCompleted:0 , totalLectures:2},
-    {lectureCompleted:5 , totalLectures:5}
   ])
 
   return (
