@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUserData, getUserProgress, purchaseCourse, updateUserCourseProgress, userEnrolledCourses } from '../Controlles/UserController.js'
+import { addUserRating, getUserData, getUserProgress, purchaseCourse, updateUserCourseProgress, userEnrolledCourses } from '../Controlles/UserController.js'
 
 const userRouter = express.Router()
 
@@ -9,4 +9,5 @@ userRouter.post('/purchase' , purchaseCourse)
 
 userRouter.post('/update-course-progress' , updateUserCourseProgress)
 userRouter.post('/get-course-progress' , getUserProgress)
+userRouter.post('/add-rating' , addUserRating)
 export default userRouter
