@@ -18,7 +18,7 @@ export const AppContextprovider = (props)=>{
     const {user}  = useUser()
 
     const [allCourses , setallCourses] = useState([])
-    const [isEducator , setEducator] = useState(false)
+    const [isEducator , setisEducator] = useState(false)
     const [EnrolledCourses , setEnrolledCourses] = useState([])
     const[userData , setuserData] = useState(null)
     
@@ -49,7 +49,7 @@ const fetchUserData = async ()=>{
             {headers:{
                 Authorization:`Bearer ${token}`
             }}
-
+        
        ) 
 
         if(data.success){
@@ -139,7 +139,7 @@ const fetchUserData = async ()=>{
     const value = {
            currency,allCourses,navigate,calculateRating,isEducator,
            calculateChapterTime,calculateCourseDuration,calculateNoOfLectures,
-           EnrolledCourses,fetchUserEnrolledCourses,
+           EnrolledCourses,fetchUserEnrolledCourses,setisEducator,
            backendUrl , userData ,setuserData,getToken,fetchAllCourses
      }
      return (
