@@ -41,8 +41,10 @@ export const AppContextprovider = (props)=>{
 // Fetch user data
 const fetchUserData = async ()=>{
 
-      if(user.publicMetadata.role === 'eductor')
-
+      if(user.publicMetadata.role === 'eductor'){
+        setisEducator(true) 
+      }
+ 
       try {
         const token = await getToken();
         const {data} = await axios.get(backendUrl + '/api/user/data',
