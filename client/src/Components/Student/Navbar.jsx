@@ -19,9 +19,8 @@ const Navbar = () => {
           navigate('/educator');
           return;
        }
-       else{
          const token  = await getToken();
-          const {data} = await axios.get(backendUrl + '/api/educator/update-role',
+         const {data} = await axios.get(backendUrl + '/api/educator/update-role',
              {headers:{
                  Authorization:`Bearer ${token}`
              }}
@@ -33,7 +32,7 @@ const Navbar = () => {
         }else{
          toast.error(data.message)
         }
-       }
+       
      } catch (error) {
        toast.error(error.message)
      }
@@ -53,9 +52,12 @@ const Navbar = () => {
 
       {/* For Phone screen */}
       <div className='md:hidden flex item-centre gap-2 sm:gap-5 text-gray-500'>
-        <div>
-           {user && <button onClick={BecomeEducator}>{isEducator ? 'Educator Dashboard' : 'Become Educator'} </button> |
-            <Link to='/my-enrollments'> My Enrollments</Link>}
+        <div className='flex items-center gap-5'>
+           {user && 
+           <>
+           <button onClick={BecomeEducator}>{isEducator ? 'Educator Dashboard' : 'Become Educator'} </button> |
+            <Link to='/my-enrollments'> My Enrollments</Link>
+           </>}
         </div>
         {user ? <UserButton /> : <button onClick={() => openSignIn()}><img src={assets.user_icon} alt="" /></button>}
       </div>

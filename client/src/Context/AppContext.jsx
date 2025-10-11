@@ -41,7 +41,7 @@ export const AppContextprovider = (props)=>{
 // Fetch user data
 const fetchUserData = async ()=>{
 
-      if(user.publicMetadata.role === 'eductor'){
+      if(user.publicMetadata.role === 'educator'){
         setisEducator(true) 
       }
  
@@ -50,9 +50,7 @@ const fetchUserData = async ()=>{
         const {data} = await axios.get(backendUrl + '/api/user/data',
             {headers:{
                 Authorization:`Bearer ${token}`
-            }}
-        
-       ) 
+            }}) 
 
         if(data.success){
             setuserData(data.user)
@@ -127,7 +125,6 @@ const fetchUserData = async ()=>{
         fetchAllCourses()
        
     },[])
-
 
     useEffect(()=>{
            if(user){
