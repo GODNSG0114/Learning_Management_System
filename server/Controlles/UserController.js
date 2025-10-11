@@ -67,7 +67,7 @@ export const purchaseCourse = async (req, res) => {
                 product_data: {
                     name:courseData.courseTitle
                 },
-                unit_amount:Math.round(newPurchase.amount) * 100
+                unit_amount:Math.floor(newPurchase.amount) * 100
             },
             quantity:1
         }]
@@ -86,7 +86,7 @@ export const purchaseCourse = async (req, res) => {
       res.json({success:true , session_url: session.url})
 
     } catch (error) {
-        res.json({success:false , message: error.message})
+        res.json({success:false , session_Url: error.message})
 
     }
 }
