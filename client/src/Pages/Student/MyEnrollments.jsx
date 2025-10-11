@@ -1,18 +1,53 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../Context/AppContext'
 import { Line } from 'rc-progress'
 import Footer from '../../Components/Student/Footer'
-
+import { data } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 const MyEnrollments = () => {
 
-  const { EnrolledCourses, calculateCourseDuration, navigate } = useContext(AppContext)
-  console.log(EnrolledCourses)
-  // ⚠️ NOTE: This progressArray should come from the user's actual enrollment data (backend/context)
-  // relying on index correlation is unreliable.
-  const [progressArray ,setprogressArray] = useState([
-    {lectureCompleted:2 , totalLectures:4},
-  ])
+  const { EnrolledCourses, calculateCourseDuration, navigate,
+    userData, fetchUserEnrolledCourses, backendUrl, getToken, calculateNoOfLectures
+  } = useContext(AppContext)
+  const [progressArray, setprogressArray] = useState([])
 
+  const getCourseProgress = async () => {
+    try {
+      const token = await getToken()
+      const tempProgressArray = await Promise.all(
+        EnrolledCourses.map(async (course) => {
+          const { data } = await axios.post(`${backendUrl}/api/user/get-course-progress`,
+            { courseId: course._id },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+          let totalLectures = calculateNoOfLectures(course)
+          const lectureCompleted = data.progressData ? data.progressData.lectureCompleted.length : 0;
+          return { totalLectures, lectureCompleted }
+        })
+      )
+
+    setprogressArray(tempProgressArray)
+
+    } catch (error) {
+    toast.error(error.message)
+    }
+  }
+
+  useEffect(()=>{
+    if(userData){
+      fetchUserEnrolledCourses()
+    }
+  },[userData])
+
+  useEffect(()=>{
+    if(EnrolledCourses.length > 0){
+     getCourseProgress()
+    }
+  },[EnrolledCourses])
   return (
     <>
       <div className='md:px-36 px-8 pt-10 min-h-screen'>
@@ -39,13 +74,13 @@ const MyEnrollments = () => {
                       {/* Added descriptive alt attribute */}
                       <img src={course.courseThumbnail} alt={`Thumbnail for ${course.courseTitle}`} className='w-14 sm:w-24 md:w-28' />
                       <div className='flex-1'>
-                        {/* 🐛 FIX: Correctly rendered courseTitle */}
+                        {/*  FIX: Correctly rendered courseTitle */}
                         <p className='mb-1 max-sm:text-sm'>{course.courseTitle}</p>
-                        <Line 
-                            className='bg-gray-300 rounded-full' 
-                            strokeWidth={2} 
-                            percent={percentCompleted}
-                            strokeColor={percentCompleted === 100 ? '#10B981' : '#3B82F6'} // Optional: different color for completed
+                        <Line
+                          className='bg-gray-300 rounded-full'
+                          strokeWidth={2}
+                          percent={percentCompleted}
+                          strokeColor={percentCompleted === 100 ? '#10B981' : '#3B82F6'} // Optional: different color for completed
                         />
                       </div>
                     </td>
@@ -56,9 +91,9 @@ const MyEnrollments = () => {
                       {`${progress.lectureCompleted} / ${progress.totalLectures} `} <span>lectures</span>
                     </td>
                     <td className='px-4 py-3 max-sm:text-right'>
-                      <button 
+                      <button
                         className=' rounded-3xl px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs text-white '
-                        onClick={() => navigate('/player/' + course._id)} 
+                        onClick={() => navigate('/player/' + course._id)}
                       >
                         {progress.lectureCompleted === progress.totalLectures ? 'Completed' : 'On Going'}
                       </button>
@@ -70,7 +105,7 @@ const MyEnrollments = () => {
           </tbody>
         </table>
       </div>
-      <Footer/>
+      <Footer />
     </>
   )
 }

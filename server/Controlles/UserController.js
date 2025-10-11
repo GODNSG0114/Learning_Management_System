@@ -95,8 +95,8 @@ export const purchaseCourse = async (req, res) => {
  export const updateUserCourseProgress = async (req,res)=>{
     try {
         const userId  = req.auth().userId
-        const {courseId , lectureId} = req.body
-        const progressData = await CourseProgress.findOne({userId ,courseId});
+        const {courseID , lectureId} = req.body
+        const progressData = await CourseProgress.findOne({userId ,courseID});
     
         if(progressData){
             if(progressData.lectureCompleted.includes(lectureId)){
@@ -109,7 +109,7 @@ export const purchaseCourse = async (req, res) => {
         }else{
              await CourseProgress.create({
                 userId,
-                courseId,
+                courseID,
                 lectureCompleted:[lectureId]
              })
              res.json({success:true ,message:'progress updated'})
@@ -124,32 +124,32 @@ export const purchaseCourse = async (req, res) => {
 export const getUserProgress = async(req,res)=>{
      try {
         const userId  = req.auth().userId
-        const {courseId , lectureId} = req.body
-        const progressData = await CourseProgress.findOne({userId ,courseId});
+        const {courseID , lectureId} = req.body
+        const progressData = await CourseProgress.findOne({userId ,courseID});
     
          res.json({success:true , progressData})
      } catch (error) {
-        
+        res.json({success:false , message:error.message})   
      }
 }
 
 // add user ratings to course
 export const addUserRating = async (req,res)=>{
     const userId = req.auth().userId;
-    const {courseId,rating} = req.body;
+    const {courseID,rating} = req.body;
 
-    if(!courseId || !userId || !rating || rating<1 || rating >5){
+    if(!courseID || !userId || !rating || rating<1 || rating > 5){
        return res.json({success:false , message:'Invalid Details'});
     }
 
     try {
-        const course = await Course.findById(courseId)
+        const course = await Course.findById(courseID)
         if(!course){
             return res.json({success:false , message:'Course not found.'})
         }
 
         const user = await User.findById(userId)
-        if(!user || !user.enrolledCourses.includes(courseId)){
+        if(!user || !user.enrolledCourses.includes(courseID)){
             return res.json({success:false , message:'user has not purchased this course. '});
         }
 
