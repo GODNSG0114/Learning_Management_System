@@ -52,7 +52,7 @@ export const addCourse = async (req,res)=>{
 export const getEducatorCourses = async (req,res)=>{
 
     try {
-        const educator = req.auth.userId
+        const educator = req.auth().userId
         const courses = await Course.find({educator})
         res.json({success:true ,courses})
     } catch (error) {
@@ -62,7 +62,7 @@ export const getEducatorCourses = async (req,res)=>{
 
 // Get Educator Dashboard data (Total Earning ,Enrolled Students , No. of Courses)
 
-export const educatorDashboard = async()=>{
+export const educatorDashboard = async(req,res)=>{
     try {
        const educator =  req.auth.userId;
        const courses = await Course.find({educator});
