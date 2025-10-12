@@ -22,9 +22,9 @@ const DashBoard = () => {
        )
 
         if(data.success){
-          setdashboardData(data)
+          setdashboardData(data.dashboardData)
         }else{
-             toast.data(error.message)
+             toast.error(data.message)
         }
      } catch (error) {
         toast.error(error.message)
@@ -36,6 +36,7 @@ const DashBoard = () => {
     fetchDashboardData()
 }
   }, [isEducator])
+
   return dashboardData ? (
 
 
@@ -49,7 +50,7 @@ const DashBoard = () => {
             <img src={assets.patients_icon} alt="patients_icon" />
             <div>
               <p className='text-2xl font-medium text-gray-600 '>
-                {dashboardData.enrolledStudentsData.length}
+                {dashboardData.enrolledStudentData.length}
               </p>
               <p className='text-base text-gray-500'>Total Enroll</p>
             </div>
@@ -70,7 +71,7 @@ const DashBoard = () => {
             <img src={assets.earning_icon} alt="earning_icon" />
             <div>
               <p className='text-2xl font-medium text-gray-600 '>
-                {dashboardData.totalEarnings}
+               {currency} {dashboardData.totalEarnings}
               </p>
               <p className='text-base text-gray-500'>Total Earnings</p>
             </div>
@@ -91,7 +92,7 @@ const DashBoard = () => {
               </tr>
             </thead>
             <tbody className='text-sm text-gray-500'>
-              {dashboardData.enrolledSrudentData.map((item, index) => (
+              {dashboardData.enrolledStudentData.map((item, index) => (
                 <tr key={index} className='border-b border-gray-500/20 '>
                   <td className='px-4 py-3 text-center hidden sm:table-cell '>
                     {index + 1} </td>
