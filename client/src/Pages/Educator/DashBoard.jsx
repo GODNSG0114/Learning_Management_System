@@ -2,19 +2,40 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../Context/AppContext'
 import { assets, dummyDashboardData } from '../../assets/assets'
 import Loading from '../../Components/Student/Loading'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+
 const DashBoard = () => {
 
+  
   const [dashboardData, setdashboardData] = useState(null)
-  const { currency } = useContext(AppContext)
+  const { currency,backendUrl , getToken ,isEducator } = useContext(AppContext)
 
   // fetch dashboard data 
   const fetchDashboardData = async () => {
-    setdashboardData(dummyDashboardData)
+   try {
+       const token  = await getToken()
+       const {data} = await axios.get(backendUrl + '/api/educator/dashboard',
+        {headers:{
+          Authorization:`Bearer ${token}`
+        }}
+       )
+
+        if(data.success){
+          setdashboardData(data)
+        }else{
+             toast.data(error.message)
+        }
+     } catch (error) {
+        toast.error(error.message)
+     }
   }
 
   useEffect(() => {
+    if(isEducator){
     fetchDashboardData()
-  }, [])
+}
+  }, [isEducator])
   return dashboardData ? (
 
 
@@ -70,7 +91,7 @@ const DashBoard = () => {
               </tr>
             </thead>
             <tbody className='text-sm text-gray-500'>
-              {dashboardData.enrolledStudentsData.map((item, index) => (
+              {dashboardData.enrolledSrudentData.map((item, index) => (
                 <tr key={index} className='border-b border-gray-500/20 '>
                   <td className='px-4 py-3 text-center hidden sm:table-cell '>
                     {index + 1} </td>

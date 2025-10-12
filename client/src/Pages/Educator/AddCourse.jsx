@@ -1,8 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { assets } from '../../assets/assets'
 import uniqid from 'uniqid'
 import Quill from 'quill'
+import { AppContext } from '../../Context/AppContext'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+
 const AddCourse = () => {
+
+const {backendUrl , getToken} = useContext(AppContext)
 
   const quillRef = useRef(null)
   const editorRef = useRef(null)
@@ -88,7 +94,45 @@ const AddCourse = () => {
   };
 
   const handleSubmit = async(e)=>{
-    e.preventDefault()
+    try {
+          e.preventDefault()
+          if(!image){
+            toast.error('Thumbnail Not Selected')
+          }
+          const courseData = {
+            courseTitle,
+            courseDescription:quillRef.current.root.innerHTML,
+            coursePrice:Number(coursePrice),
+            discount:Number(discount),
+            courseContent:chapters,
+          }
+
+          const formData = new FormData()
+          formData.append('courseData' , JSON.stringify(courseData))
+          formData.append('image' ,image)
+
+          const token  = await getToken()
+          const {data} = await axios.post(backendUrl + '/api/educator/add-course',
+            formData,{headers:{
+              Authorization:`Bearer ${token}`
+            }}
+          )
+
+          if(data.message){
+            toast.success(data.message)
+            setCourseTitle('')
+            setcoursePrice(0)
+            setdiscount(0)
+            setimage(null)
+            setchapters([])
+            quillRef.current.root.innerHTML = ""
+          }else{
+            toast.error(data.message)
+          }
+    } catch (error) {
+         toast.error(error.message)
+    }
+
   };
    
 
@@ -133,7 +177,7 @@ const AddCourse = () => {
               <img src={assets.file_upload_icon} alt=""
                 className='p-3 bg-blue-500 rounded' />
               <input type="file" id='thumbnailImage' onChange={e => setimage(e.target.files[0])} accept='image/*' hidden />
-              <img className='max-h-10' src={image ? URL.createObjectURL(image) : ''} alt="" />
+              <img className='max-h-10' src={image ? URL.createObjectURL(image) : ''} alt={null} />
             </label>
           </div>
         </div>
