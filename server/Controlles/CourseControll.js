@@ -151,10 +151,10 @@ ${JSON.stringify(courseDataList, null, 2)}`;
             if (response.status === 429) {
                 return res.status(429).json({
                     success: false,
-                    message: 'AI service is temporarily rate-limited. Please wait a minute and try again.'
+                    message: 'Something went wrong. Please try again.'
                 });
             }
-            throw new Error(`Groq API Error: ${response.status} - ${errorText}`);
+            throw new Error(`Groq API Error: ${response.status}`);
         }
 
         const data = await response.json();
@@ -184,7 +184,7 @@ ${JSON.stringify(courseDataList, null, 2)}`;
         console.error("AI Course Flow Error:", error);
         return res.status(500).json({
             success: false,
-            message: `AI Suggestion generation failed: ${error.message}`
+            message: 'Something went wrong. Please try again.'
         });
     }
 };
@@ -245,9 +245,9 @@ Guidelines:
         if (!response.ok) {
             const errorText = await response.text();
             if (response.status === 429) {
-                return res.status(429).json({ success: false, message: 'AI is rate-limited. Please wait a moment.' });
+                return res.status(429).json({ success: false, message: 'Something went wrong. Please try again.' });
             }
-            throw new Error(`Groq API Error: ${response.status} - ${errorText}`);
+            throw new Error(`Groq API Error: ${response.status}`);
         }
 
         const data = await response.json();
@@ -257,6 +257,6 @@ Guidelines:
 
     } catch (error) {
         console.error('AI Chat Error:', error);
-        return res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
     }
 };

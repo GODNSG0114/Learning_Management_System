@@ -65,18 +65,16 @@ const AiCourseFlow = () => {
 
       if (data.success) {
         setRoadmap(data)
-        // Seed the chat with a welcome message
         setChatMessages([{
           role: 'assistant',
           content: `I've built your learning roadmap! Feel free to ask me anything about the topics in your path, or any related concepts you'd like to understand better.`
         }])
         toast.success("Roadmap generated!")
       } else {
-        setErrorMsg(data.message || "Failed to generate course flow.")
+        setErrorMsg("Something went wrong. Please try again.")
       }
     } catch (error) {
-      const msg = error.response?.data?.message || error.message
-      setErrorMsg(msg)
+      setErrorMsg("Something went wrong. Please try again.")
     } finally {
       setLoading(false)
     }
