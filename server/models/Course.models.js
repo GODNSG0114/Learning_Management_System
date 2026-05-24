@@ -56,6 +56,10 @@ const CourseSchema = new mongoose.Schema({
         required: true,
         min: 0, max: 100
     },
+    priority: {
+        type: Number,
+        default: 0
+    },
 
     courseContent: [ChapterSchema],
 

@@ -12,6 +12,7 @@ import AddCourse from './Pages/Educator/AddCourse'
 import Mycourses from './Pages/Educator/Mycourses'
 import StudentEnrolled from './Pages/Educator/StudentEnrolled'
 import Navbar from './Components/Student/Navbar'
+import AiCourseFlow from './Pages/Student/AiCourseFlow'
 import "quill/dist/quill.snow.css"
 import { ToastContainer } from 'react-toastify';
 const App = () => {
@@ -32,6 +33,7 @@ const isEducatorRoute = useMatch('/educator/*');
         <Route path='/my-enrollments' element={<MyEnrollement/>}/>
         <Route path='/player/:courseID' element={<Player/>}/>
         <Route path='/loading/:path' element={<Loading/>}/>
+        <Route path='/ai-flow' element={<AiCourseFlow/>}/>
             
         <Route path='/educator' element={<Educators/>}>
            <Route path='/educator' element={<DashBoard/>}/>

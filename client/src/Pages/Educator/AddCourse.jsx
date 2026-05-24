@@ -16,6 +16,7 @@ const AddCourse = () => {
   const [coursePrice, setcoursePrice] = useState(0)
   const [discount, setdiscount] = useState(0)
   const [image, setimage] = useState(null)
+  const [priority, setPriority] = useState(0)
   const [chapters, setchapters] = useState([])
   const [showPopUp, setshowPopUp] = useState(false)
   const [currentChapterId, setcurrentChapterId] = useState(null)
@@ -103,6 +104,7 @@ const AddCourse = () => {
         courseDescription: quillRef.current.root.innerHTML,
         coursePrice: Number(coursePrice),
         discount: Number(discount),
+        priority: Number(priority),
         courseContent: chapters,
       }
 
@@ -124,6 +126,7 @@ const AddCourse = () => {
         setCourseTitle('')
         setcoursePrice(0)
         setdiscount(0)
+        setPriority(0)
         setimage(null)
         setchapters([])
         quillRef.current.root.innerHTML = ""
@@ -191,6 +194,18 @@ const AddCourse = () => {
             placeholder='0'
             min={0}
             max={100}
+            className='outline-none md:py-2.5 py-2 w-28 px-3 rounded 
+   border border-gray-500' required />
+        </div>
+
+        <div className='flex flex-col gap-1'>
+          <p>Course Priority (Higher = Sequenced first in relevant topics)</p>
+          <input
+            onChange={e => setPriority(e.target.value)}
+            value={priority}
+            type="number"
+            placeholder='0'
+            min={0}
             className='outline-none md:py-2.5 py-2 w-28 px-3 rounded 
    border border-gray-500' required />
         </div>

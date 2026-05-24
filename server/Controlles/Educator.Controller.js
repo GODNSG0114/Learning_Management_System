@@ -27,7 +27,7 @@ export const addCourse = async (req,res)=>{
     try {
         const {courseData} = req.body;
         const imageFile = req.file
-        const educatorId  = req.auth.userId
+        const educatorId  = req.auth().userId
 
         if(!imageFile){
             return res.json({success:false , message:'Thumbnail Not Attached'})
@@ -35,6 +35,7 @@ export const addCourse = async (req,res)=>{
          
         const parsedCourseData = await JSON.parse(courseData)
         parsedCourseData.educator = educatorId
+        parsedCourseData.priority = Number(parsedCourseData.priority) || 0
         const newCourse = await Course.create(parsedCourseData )
 
       const imageUpload =  await cloudinary.uploader.upload(imageFile.path)
@@ -65,7 +66,7 @@ export const getEducatorCourses = async (req,res)=>{
 
 export const educatorDashboard = async(req,res)=>{
     try {
-       const educator =  req.auth.userId;
+       const educator =  req.auth().userId;
        const courses = await Course.find({educator});
        const totalCourses = courses.length;
 
@@ -105,7 +106,7 @@ export const educatorDashboard = async(req,res)=>{
 // Get Enrolled student data with purchase data
 export const getEnrolledStudentsData = async (req,res)=>{
     try {
-        const educator = req.auth.userId;
+        const educator = req.auth().userId;
         const courses  = await Course.find({educator});
         const courseIds = courses.map(course=>course._id);
         
