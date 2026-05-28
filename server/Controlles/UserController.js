@@ -96,20 +96,19 @@ export const purchaseCourse = async (req, res) => {
     try {
         const userId  = req.auth().userId
         const {courseID , lectureId} = req.body
-        const progressData = await CourseProgress.findOne({userId ,courseID});
+        const progressData = await CourseProgress.findOne({userId, courseId: courseID});
     
         if(progressData){
             if(progressData.lectureCompleted.includes(lectureId)){
                 return res.json({success:true ,message:'lecture already completed'})
             }
-
             progressData.lectureCompleted.push(lectureId)
             await progressData.save();
-
+            return res.json({success:true ,message:'progress updated'})
         }else{
              await CourseProgress.create({
                 userId,
-                courseID,
+                courseId: courseID,
                 lectureCompleted:[lectureId]
              })
              res.json({success:true ,message:'progress updated'})
@@ -124,9 +123,8 @@ export const purchaseCourse = async (req, res) => {
 export const getUserProgress = async(req,res)=>{
      try {
         const userId  = req.auth().userId
-        const {courseID , lectureId} = req.body
-        const progressData = await CourseProgress.findOne({userId ,courseID});
-    
+        const courseID = req.body.courseID || req.body.courseId
+        const progressData = await CourseProgress.findOne({userId, courseId: courseID});
          res.json({success:true , progressData})
      } catch (error) {
         res.json({success:false , message:error.message})   
@@ -136,7 +134,7 @@ export const getUserProgress = async(req,res)=>{
 // add user ratings to course
 export const addUserRating = async (req,res)=>{
     const userId = req.auth().userId;
-    const {courseID,rating} = req.body;
+    const {courseID, rating} = req.body;
 
     if(!courseID || !userId || !rating || rating<1 || rating > 5){
        return res.json({success:false , message:'Invalid Details'});
@@ -150,19 +148,17 @@ export const addUserRating = async (req,res)=>{
 
         const user = await User.findById(userId)
         if(!user || !user.enrolledCourses.includes(courseID)){
-            return res.json({success:false , message:'user has not purchased this course. '});
+            return res.json({success:false , message:'user has not purchased this course.'});
         }
 
         const existingRatingIndex = course.courseRatings.findIndex(r=>r.userId === userId)
-
         if(existingRatingIndex > -1) {
-            course.courseRatings[existingRatingIndex].rating  = rating
+            course.courseRatings[existingRatingIndex].rating = rating
         }else{
-            course.courseRatings.push({userId ,rating});
+            course.courseRatings.push({userId, rating});
         }
         await course.save()
-        return res.json({success:true ,message:'Rating added'})
- 
+        return res.json({success:true, message:'Rating added'})
     } catch (error) {
          res.json({success:false , message:error.message})        
     }

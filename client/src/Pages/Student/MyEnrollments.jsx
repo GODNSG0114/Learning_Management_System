@@ -48,6 +48,15 @@ const MyEnrollments = () => {
      getCourseProgress()
     }
   },[EnrolledCourses])
+
+  // Refresh progress when user navigates back to this page
+  useEffect(() => {
+    const handleFocus = () => {
+      if (EnrolledCourses.length > 0) getCourseProgress()
+    }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [EnrolledCourses])
   return (
     <>
       <div className='md:px-36 px-8 pt-10 min-h-screen'>

@@ -85,7 +85,7 @@ export const educatorDashboard = async(req,res)=>{
     for(const course of courses){
         const Students = await User.find({
             _id:{$in:course.enrolledStudents}
-        },'name imageURL');
+        },'name imageUrl');
         Students.forEach(student=>{
             enrolledStudentData.push({
                courseTitle: course.courseTitle,

@@ -97,7 +97,7 @@ const DashBoard = () => {
                   <td className='px-4 py-3 text-center hidden sm:table-cell '>
                     {index + 1} </td>
                   <td className='md:px-4 px-2 py-3 flex items-center space-x-3 '> 
-                    <img src={item.student.imageUrl} alt="Profile"
+                    <img src={item.student.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(item.student.name)}&background=3B82F6&color=fff`} alt="Profile"
                     className='w-9 h-9 rounded-full' />
                     <span className='truncate'>{item.student.name}</span>
                   </td>

@@ -139,9 +139,11 @@ const enrolledCourse = async ()=>{
                               <p>{lecture.lectureTitle}</p>
                               <div className='flex gap-2'>
                                 {lecture.isPreviewFree && <p className='text-blue-500 cursor-pointer'
-                                  onClick={() => setPlayerdata({
-                                    videoId: lecture.lectureUrl.split('/').pop()
-                                  })} >Preview</p>}
+                                  onClick={() => {
+                                    const url = (lecture.lectureUrl || '').trim();
+                                    const match = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+                                    setPlayerdata({ videoId: match ? match[1] : '' });
+                                  }} >Preview</p>}
                                 <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
                               </div>
                             </div>
@@ -169,8 +171,12 @@ const enrolledCourse = async ()=>{
         <div className='max-w-424px z-10 shadow-[0px 4px 15px 2px rgba(0,0,0,0.1)] rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]'>
 
           {Playerdata ?
-            <YouTube videoId={Playerdata.videoId}
-              opts={{ playerVars: { autoplay: 1 } }} iframeClassName='w-full aspect-video ' />
+            <iframe
+              src={`https://www.youtube.com/embed/${Playerdata.videoId}?autoplay=1`}
+              className='w-full aspect-video'
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
             : <img src={courseData.courseThumbnail} alt="" />
           }
 
