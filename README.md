@@ -1,4 +1,4 @@
-# LearnFlow — Learning Management System
+# Edemy — Learning Management System
 
 A full-stack Learning Management System where students can discover, purchase, and learn from courses, and educators can create and manage their content. Built with React, Node.js, MongoDB, and integrated with Clerk for auth, Stripe for payments, Cloudinary for media, and Groq AI for personalized learning paths.
 
