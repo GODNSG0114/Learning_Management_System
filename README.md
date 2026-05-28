@@ -102,7 +102,7 @@ Lecture completions are stored in a `CourseProgress` collection keyed by userId 
 ```
 
 **Backend**
-```
+
 POST   /clerk                              Clerk user sync webhook
 POST   /stripe                             Stripe payment webhook
 
@@ -123,4 +123,3 @@ POST   /api/educator/add-course            Add new course
 GET    /api/educator/courses               Educator's courses
 GET    /api/educator/dashboard             Earnings & stats
 GET    /api/educator/enrolled-students     Student list
-```
