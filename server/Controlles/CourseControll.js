@@ -1,38 +1,38 @@
 import Course from "../models/Course.models.js";
 
 // Get All Courses
-export const getAllCourse = async (req , res)=>{
+export const getAllCourse = async (req, res) => {
     try {
-        const course = await Course.find({isPublished:true}).
-        select(['-courseContent' ,'-enrolledStudent']).populate({path:'educator'})
+        const course = await Course.find({ isPublished: true }).
+            select(['-courseContent', '-enrolledStudent']).populate({ path: 'educator' })
 
-         res.json({success:true ,course})
+        res.json({ success: true, course })
 
     } catch (error) {
-          res.json({success:false , message:error.message});
+        res.json({ success: false, message: error.message });
     }
 }
 
 // Get Course By id
 
-export const GetCourseById = async(req,res)=>{
-     const {id} = req.params
-    try {   
-        const courseData = await Course.findById(id).populate({path:'educator'})
-    
+export const GetCourseById = async (req, res) => {
+    const { id } = req.params
+    try {
+        const courseData = await Course.findById(id).populate({ path: 'educator' })
+
         // Remove lectureUrl if isPreviewFree is false
-        courseData.courseContent.forEach(chapter=>{
-            chapter.chapterContent.forEach(lecture=>{
-                if(!lecture.isPreviewFree){
+        courseData.courseContent.forEach(chapter => {
+            chapter.chapterContent.forEach(lecture => {
+                if (!lecture.isPreviewFree) {
                     lecture.lectureUrl = '';
                 }
             })
         })
 
-         res.json({success:true , courseData})
+        res.json({ success: true, courseData })
 
     } catch (error) {
-        res.json({success:false , message:error.message});
+        res.json({ success: false, message: error.message });
     }
 }
 
@@ -47,9 +47,9 @@ export const getAiSuggestedFlow = async (req, res) => {
 
         const apiKey = process.env.GROQ_API_KEY;
         if (!apiKey) {
-            return res.status(500).json({ 
-                success: false, 
-                message: 'AI API Key is missing. Please configure GROQ_API_KEY in your server .env file.' 
+            return res.status(500).json({
+                success: false,
+                message: 'AI API Key is missing.'
             });
         }
 
@@ -57,14 +57,14 @@ export const getAiSuggestedFlow = async (req, res) => {
         const courses = await Course.find({ isPublished: true });
 
         if (courses.length === 0) {
-            return res.json({ 
-                success: true, 
-                flow: [], 
-                overallSummary: 'There are no published courses on the platform to construct a path.' 
+            return res.json({
+                success: true,
+                flow: [],
+                overallSummary: 'There are no published courses on the platform to construct a path.'
             });
         }
 
-        // Prepare simplified course data for Gemini
+        // Prepare simplified course data for AI 
         const courseDataList = courses.map(course => {
             let avgRating = 0;
             if (course.courseRatings && course.courseRatings.length > 0) {
@@ -164,12 +164,11 @@ ${JSON.stringify(courseDataList, null, 2)}`;
         }
 
         const aiResponseText = data.choices[0].message.content;
-        
+
         let parsedResult;
         try {
             parsedResult = JSON.parse(aiResponseText);
         } catch (e) {
-            // Clean markdown formatting if present
             const cleanText = aiResponseText.replace(/```json/g, '').replace(/```/g, '').trim();
             parsedResult = JSON.parse(cleanText);
         }
