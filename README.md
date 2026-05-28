@@ -81,3 +81,46 @@ When a student submits a learning goal, the backend fetches all published course
 Lecture completions are stored in a `CourseProgress` collection keyed by userId + courseId. The player page reads and writes progress as students watch lectures.
 
 
+
+---
+
+## Routes
+
+**Frontend**
+```
+/                          Home
+/course-list               All courses
+/course-list/:input        Filtered courses
+/course/:id                Course details
+/my-enrollments            Student enrollments
+/player/:courseID          Course player
+/ai-flow                   AI roadmap
+/educator                  Educator dashboard
+/educator/add-course       Add course
+/educator/my-courses       Manage courses
+/educator/student-enrolled Enrolled students
+```
+
+**Backend**
+```
+POST   /clerk                              Clerk user sync webhook
+POST   /stripe                             Stripe payment webhook
+
+GET    /api/course/all                     All published courses
+GET    /api/course/:id                     Single course
+POST   /api/course/ai-flow                 AI course roadmap
+POST   /api/course/ai-chat                 AI chat assistant
+
+GET    /api/user/data                      Current user data
+GET    /api/user/enrolled-courses          User enrollments
+POST   /api/user/purchase                  Initiate checkout
+POST   /api/user/update-course-progress    Mark lecture complete
+POST   /api/user/get-course-progress       Get course progress
+POST   /api/user/add-rating                Rate a course
+
+GET    /api/educator/update-role           Become educator
+POST   /api/educator/add-course            Add new course
+GET    /api/educator/courses               Educator's courses
+GET    /api/educator/dashboard             Earnings & stats
+GET    /api/educator/enrolled-students     Student list
+```
