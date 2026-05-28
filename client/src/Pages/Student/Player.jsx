@@ -121,7 +121,11 @@ const Player = () => {
           {playerData ? (
             <div>
               <YouTube
-                videoId={playerData.lectureUrl.split('/').pop()}
+                videoId={(() => {
+                  const url = playerData.lectureUrl;
+                  const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                  return match ? match[1] : url;
+                })()}
                 iframeClassName="w-full aspect-video"
               />
               <div className="flex justify-between items-center mt-1">
