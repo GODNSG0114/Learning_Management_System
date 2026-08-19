@@ -246,7 +246,7 @@ Guidelines:
             if (response.status === 429) {
                 return res.status(429).json({ success: false, message: 'Something went wrong. Please try again.' });
             }
-            throw new Error(`Groq API Error: ${response.status}`);
+            throw new Error(`Groq API Error: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
