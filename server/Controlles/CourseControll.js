@@ -242,12 +242,22 @@ Guidelines:
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            if (response.status === 429) {
-                return res.status(429).json({ success: false, message: 'Something went wrong. Please try again.' });
-            }
-            throw new Error(`Groq API Error: ${response.status} - ${errorText}`);
-        }
+    const errorText = await response.text();
+
+    console.error("===== GROQ ERROR =====");
+    console.error("Status:", response.status);
+    console.error("Response:", errorText);
+    console.error("======================");
+
+    if (response.status === 429) {
+        return res.status(429).json({
+            success: false,
+            message: "Something went wrong. Please try again."
+        });
+    }
+
+    throw new Error(`Groq API Error: ${response.status} - ${errorText}`);
+}
 
         const data = await response.json();
         const reply = data.choices[0].message.content;
